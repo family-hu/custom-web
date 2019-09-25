@@ -39,6 +39,26 @@ const actions = {
     }).catch(err);
   },
 
+  //获取医生列表
+  doctorList: ({ commit }, request) => {
+    return axios.post("doctorList.mo", request, config).then(value => {
+      return {doctorList:value.data.expertList, total: value.data.total.value};
+    }).catch(err);
+  },
+
+  //资讯
+  newsList:({ commit }, request) => {
+    return axios.post("news/wx", request, orgConfig).then(value => {
+      return value.data.data;
+    }).catch(err);
+  },
+
+  //获取机构详情
+  orgDetail:({ commit }, request) => {
+    return axios.post("newsAuthorOrgGet.mo", request, config).then(value => {
+      return value.data.orgObj;
+    }).catch(err);
+  },
 
 };
 

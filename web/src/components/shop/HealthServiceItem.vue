@@ -1,5 +1,5 @@
 <template>
-  <div v-if="healthServiceItem" class="list" @click="goodsDetail(healthServiceItem)">
+  <div v-if="healthServiceItem" class="list" @click="toDetail(healthServiceItem)">
     <img class="image" v-lazy.container="healthServiceItem.imagePath" :src="healthServiceItem.imagePath"/>
     <div class="flex-b">
       <div class="namecs">{{healthServiceItem.name}}</div>
@@ -21,22 +21,27 @@ export default {
   props: {
     healthServiceItem: {},
     orgId: null,
-    orgNames: null
+    navName: null,
+    pageUrl: null
   },
 
   computed: {},
 
   methods: {
-    goodsDetail(healthServiceItem) {
-      this.$router.push({
-        path: "healthServiceDetail",
-        query: {
-          packDetailsId: healthServiceItem.packDetailsId.value,
-          serviceCompanyId: healthServiceItem.serviceCompanyId.value,
-          orgId: this.orgId,
-          orgNames: this.orgNames
-        }
-      });
+    toDetail(item) {
+      window.location.href =
+        "http://yun.sinoylb.com/healthServiceDetail?packDetailsId=" +
+        item.packDetailsId.value +
+        "&serviceCompanyId=" +
+        item.serviceCompanyId.value +
+        "&orgId=" +
+        this.orgId +
+        "&shopName=" +
+        item.name +
+        "&orgNames=" +
+        this.navName +
+        "&pageUrl=" +
+        this.pageUrl;
     }
   },
 
@@ -46,12 +51,12 @@ export default {
 };
 </script>
 <style>
-  .list .image[lazy="loading"] {
-    width: 40px;
-    height: 122px;
-    margin: 0 auto;
-    color: #333;
-  }
+.list .image[lazy="loading"] {
+  width: 40px;
+  height: 122px;
+  margin: 0 auto;
+  color: #333;
+}
 </style>
 <style scoped>
 .box {

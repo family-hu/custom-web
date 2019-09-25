@@ -16,7 +16,6 @@
 
     watch: {
       $route(to, from) {
-        console.log(this.$route.path,'==path');
         //调用分享
         if(this.$route.path === '/doctorDetail' || this.$route.path === '/main' || this.$route.path === '/healthServiceDetail' || this.$route.path === '/healthServiceDetail' || this.$route.path === '/topicDetail' || this.$route.path === '/home' || this.$route.path === '/featuresDepartment' || this.$route.path === '/serviceDetail' || this.$route.path === '/groupDetail') {
           return false
@@ -28,16 +27,7 @@
         }
       }
     },
-    // beforeRouteEnter(to, from, next) {
-    //   //调用分享
-    //   if(to.path != '/doctorDetail' || to.path != '/main' || to.path != '/healthServiceDetail' || to.path != '/healthServiceDetail' || to.path != '/topicDetail' || to.path != '/home' || to.path != '/featuresDepartment' || to.path != '/serviceDetail' || to.path != '/groupDetail') {
-    //     console.log('默认分享');
-    //     setTimeout(() => {
-    //       this.wxShareCallback();
-    //     }, 1000)
-    //   }
-    //   next();
-    // },
+
     methods:{
       wxShareCallback() {
         let shareUrl = window.location.href.split("#")[0];

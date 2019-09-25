@@ -20,7 +20,7 @@ import * as types from "../../constant/ConstantConfig.js";
 export default {
   data() {
     return {
-      orgId: this.$route.query.orgId,
+      orgId: this.$route.query.orgId ? this.$route.query.orgId : sessionStorage.getItem('orgId'),
       packProdGroupId: this.$route.query.packProdGroupId,
       serviceList:[],
       loading: false,
@@ -51,9 +51,49 @@ export default {
         this.getPackagesList();
       }
     },
-
     //健康服务--套餐列表
     getPackagesList() {
+      this.$indicator.open();
+      const request = {
+        pageParam: {
+          pageSize: 10,
+          pageNum: this.page
+        },
+        packages: {
+          orgId:  this.orgId, // "1087171373522001920"
+          packCateId: null //分类
+        },
+        sortType: "sales", //排序类型
+      };
+      this.$store
+        .dispatch("packagesList", request)
+        .then(data => {
+          if (data.data) {
+            if( data.data.list.length > 0){
+              for (let i = 0; i < data.data.list.length; i++) {
+                this.serviceList.push(data.data.list[i]);
+              }
+              this.loaded = this.serviceList.length >= data.data.total.value;
+            }else{
+              this.empty = true;
+              this.loaded = true;
+            }
+          }else{
+            this.empty = true
+            this.loaded = true;
+          }
+        })
+        .catch(error => {
+          this.loaded = true;
+          this.empty = true
+          this.$toast(error.message);
+        })
+        .finally(() => {
+          this.$indicator.close();
+        });
+    },
+    //健康服务--套餐列表 -组
+    getGroupPackagesList() {
       this.loading = true;
       const request = {
         pageParam:{
@@ -83,7 +123,11 @@ export default {
   },
 
   created() {
-    this.getPackagesList();
+    if(this.packProdGroupId){
+      this.getGroupPackagesList();
+    }else{
+      this.getPackagesList();
+    }
   },
 
 

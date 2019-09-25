@@ -21,7 +21,7 @@
     </div>
 
     <mt-tabbar v-model="selected" fixed>
-      <div :style="'flex:' + arr.length" v-for="(item , index) in arr" :key="index">
+      <div v-if="arr.length > 0" :style="'flex:' + arr.length" v-for="(item , index) in arr" :key="index">
         <mt-tab-item id="home" v-if="item.navName == '首页'" @click.native="changeTitle(item)">
           <img slot="icon" :src="homeImg">
           首页
@@ -57,9 +57,8 @@
         data() {
           return {
             selected: "home",
-            orgId: this.$route.query.orgId, //this.$route.query.orgId
+            orgId: '0',//this.$route.query.customOrgId,'1153177779693461504'
             focusEnter: true,//this.$route.query.focusEnter,
-            orgNames: null,
             arr: [],
             pageId: ''
           }
@@ -111,7 +110,7 @@
         getNavigations() {
           let vm = this;
           const request = {
-            orgId: '910361211323850752'
+            orgId: '910361211323850752' //this.orgId
           };
           vm.$store
             .dispatch("navigations", request)
@@ -119,6 +118,11 @@
               if (data) {
                 vm.arr = data.data;
                 vm.pageId = data.data[0].pageId;//默认首页
+                let navName = data.data[0].navName;
+                let pageUrl = data.data[0].pageUrl;
+                //页面跳转，返回参数
+                sessionStorage.setItem("navName", navName);
+                sessionStorage.setItem("pageUrl", pageUrl);
               }
             })
             .catch(error => {
@@ -128,6 +132,9 @@
       },
       created() {
         this.getNavigations();
+        if (this.orgId) {
+          sessionStorage.setItem("orgId", this.orgId);
+        }
       },
 
 

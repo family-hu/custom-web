@@ -5,6 +5,7 @@ import * as types from '../constant/ConstantConfig.js'
 import userinfo from './userinfo.js';
 import shop from './shop.js';
 import orgshow from './orgshow.js';
+import consultation from './consultation.js';
 
 Vue.use(Vuex);
 
@@ -61,6 +62,7 @@ export default new Vuex.Store({
   modules: {
     userinfo,
     shop,
-    orgshow
+    orgshow,
+    consultation
   }
 });
