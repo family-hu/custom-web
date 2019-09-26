@@ -57,7 +57,7 @@
         data() {
           return {
             selected: "home",
-            orgId: '0',//this.$route.query.customOrgId,'1153177779693461504'
+            orgId: '910361211323850752',//this.$route.query.customOrgId,'1153177779693461504'
             focusEnter: true,//this.$route.query.focusEnter,
             arr: [],
             pageId: ''

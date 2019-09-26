@@ -41,14 +41,8 @@ export default {
     //医生列表
     requestDoctorList() {
       let request = {
-        deptId: 0,
-        diseaseId: 0,
-        drName: "",
         orgId: this.orgId,
-        regCode: 0,
-        serviceType: 0,
-        sortType: 5,
-        type: 0,
+        classifyId: this.sourceIds,
         pageNum: this.page,
         pageSize: 3
       };

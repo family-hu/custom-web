@@ -5,9 +5,15 @@
         <img class="icon" :src="orgImg" v-if="orgId">
         <p v-if="orgId">{{ orgInfo.orgNames }}</p>
       </div>
-      <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
-        <news-item v-for="item in newsList" :key="item.newsId.value" :newsItem="item" @click.native="toDetail(item)" ></news-item>
-      </ul>
+      <div v-if="newsList.length > 0">
+        <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+          <news-item v-for="item in newsList" :key="item.newsId.value" :newsItem="item" @click.native="toDetail(item)" ></news-item>
+        </ul>
+      </div>
+      <div class="empty" v-if="empty">
+        <img :src="consultationEmpty" width="144px" height="136px">
+        <div style="font-size: 15px;margin-top: 10px;color:#b3b3b3">暂无相关结果</div>
+      </div>
     </div>
 </template>
 
@@ -18,11 +24,12 @@
     export default {
       data() {
         return {
-          orgId:this.$route.query.orgId,
+          orgId: this.$route.query.orgId ? this.$route.query.orgId : sessionStorage.getItem("orgId"),
           classifyId: this.$route.query.classifyId,
           orgInfo: {},
           org: false,
           newsList: [],
+          empty: false,
           loading: false,
           page: 1,
           loaded: false,   //是否加载完成
@@ -32,6 +39,9 @@
       },
 
       computed: {
+        consultationEmpty() {
+          return imgMap.consultationEmpty;
+        },
         orgPubImg() {
           if(this.orgInfo.orgPubUrl) return this.orgInfo.orgPubUrl;
           return imgMap.orgPubImg;
@@ -56,11 +66,13 @@
             "&orgNames=" +
             this.navName +
             "&pageUrl=" +
-            this.pageUrl;
+            this.pageUrl +
+            '&customOrgId=' + this.orgId;
         },
 
         loadMore() {
           if(!this.loaded) {
+            this.page++;
             this.requestNewsList();
           }
         },
@@ -75,20 +87,21 @@
             pageSize: '10'
           };
           let vm = this;
-          this.$store.dispatch("newsList", request).then((newsList) => {
-            vm.page++;
-            if(newsList) {
-              for(let i = 0; i < newsList.length; i++) {
-                vm.newsList.push(newsList[i]);
+          this.$store.dispatch("newsList", request).then((data) => {
+            if(data.newsList.length > 0) {
+              for(let i = 0; i < data.newsList.length; i++) {
+                vm.newsList.push(data.newsList[i]);
               }
-              vm.loaded = (newsList.length != 10);
+              vm.loaded = vm.newsList.length >= data.total;
+              vm.loading = false;
             } else {
               vm.loaded = true;
+              vm.empty = true;
             }
-            vm.loading = false;
           }).catch(error => {
             vm.loading = false;
             vm.loaded = true;
+            vm.empty = true;
             this.$toast(error.message);
           })
           .finally(() => {
@@ -118,7 +131,10 @@
 </script>
 
 <style scoped>
-  ul,li{ padding:0;list-style:none; margin: 0}
+  .empty {
+    padding: 50px 40px;
+    text-align: center;
+  }
 
   .org{
     color: #fff;

@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="title">
-        <div class="h3"><span></span>健康服务</div>
+        <div class="h3"><span></span>医疗服务</div>
         <a @click="goMore" class="more">更多<img src="/static/img/more.png" alt=""></a>
       </div>
       <!-- 体检套餐list -->

@@ -70,7 +70,7 @@
           </div>
         </div>
       </div>
-
+      <div class="bg"></div>
     </div>
 </template>
 
@@ -195,12 +195,16 @@ export default {
 </script>
 
 <style scoped>
+.bg{
+  background: #f8f8f8;
+  height: 10px;
+}
 .list_box {
   display: flex;
   justify-content: space-between;
   padding: 16px;
   background: #fff;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 .list_box2 {
   padding: 16px;

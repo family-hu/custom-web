@@ -8,9 +8,9 @@
       </div>
       <div class="main"  v-if="item.comCode == 'EXPERTS'" >
         <!-- 精选专家 -->
-        <doctor-home :sourceIds="sourceIds"></doctor-home>
+        <doctor-home :sourceIds="item.sourceIds[0]"></doctor-home>
       </div>
-      <div class="main"  v-if="item.comCode == 'NEWS'" >
+      <div class=""  v-if="item.comCode == 'NEWS'" >
         <!-- 文章资讯 -->
         <news-home :sourceIds="sourceIds"></news-home>
       </div>
@@ -49,7 +49,7 @@ export default {
     return {
       sourceIds: "",
       arr: [],
-      bannerList: '',
+      bannerList: "",
       page: 1
     };
   },
@@ -91,13 +91,13 @@ export default {
             vm.arr = data.data.detailsList;
             for (let i = 0; i < data.data.detailsList.length; i++) {
               let comCode = data.data.detailsList[i].comCode;
-              if (data.data.detailsList[i].sourceIds.length > 0) {
-                this.sourceIds = data.data.detailsList[i].sourceIds[0].value;
-              }
+              // if (data.data.detailsList[i].sourceIds.length > 0) {
+              //   this.sourceIds.push(data.data.detailsList[i].sourceIds[0]);
+              // }
 
               switch (comCode) {
                 case "POSTER": //海报
-                  this.bannerList = data.data.detailsList[i].bannerList
+                  this.bannerList = data.data.detailsList[i].bannerList;
                   break;
               }
             }

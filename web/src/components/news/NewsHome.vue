@@ -47,7 +47,8 @@ export default {
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
-        this.pageUrl;
+        this.pageUrl +
+        '&customOrgId=' + this.orgId;
     },
 
     requestNewsList() {

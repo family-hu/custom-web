@@ -1,4 +1,4 @@
-import axios,{ config , orgConfig} from '../http.js'
+import axios, { config, orgConfig } from '../http.js'
 
 const state = {
 
@@ -41,20 +41,20 @@ const actions = {
 
   //获取医生列表
   doctorList: ({ commit }, request) => {
-    return axios.post("doctorList.mo", request, config).then(value => {
-      return {doctorList:value.data.expertList, total: value.data.total.value};
+    return axios.post("doctor/wx", request, orgConfig).then(value => {
+      return { doctorList: value.data.data, total: value.data.total.value };
     }).catch(err);
   },
 
   //资讯
-  newsList:({ commit }, request) => {
+  newsList: ({ commit }, request) => {
     return axios.post("news/wx", request, orgConfig).then(value => {
-      return value.data.data;
+      return { newsList: value.data.data, total: value.data.total.value };
     }).catch(err);
   },
 
   //获取机构详情
-  orgDetail:({ commit }, request) => {
+  orgDetail: ({ commit }, request) => {
     return axios.post("newsAuthorOrgGet.mo", request, config).then(value => {
       return value.data.orgObj;
     }).catch(err);

@@ -1,7 +1,13 @@
 <template>
     <div>
       <div class="mian_box" v-if="doctorList.length > 0">
-        <doctor-item v-for="(doctorDetail,index) in doctorList" :key="index" :doctorDetail="doctorDetail" @click.native="toDetail(doctorDetail)"></doctor-item>
+        <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+          <doctor-item v-for="(doctorDetail,index) in doctorList" :key="index" :doctorDetail="doctorDetail" @click.native="toDetail(doctorDetail)"></doctor-item>
+        </ul>
+      </div>
+      <div class="empty" v-if="empty">
+        <img :src="consultationEmpty" width="144px" height="136px">
+        <div style="font-size: 15px;margin-top: 10px;color:#b3b3b3">暂无相关结果</div>
       </div>
     </div>
 </template>
@@ -16,48 +22,71 @@ export default {  //医生列表预览
       orgId: this.$route.query.orgId
         ? this.$route.query.orgId
         : sessionStorage.getItem("orgId"),
+      classifyId: this.$route.query.classifyId,
       doctorList: [],
+      empty: false,
+      loading: false,
+      page: 1,
+      loaded: false ,//是否加载完成
       navName: sessionStorage.getItem("navName"), //导航首页名字
       pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
     };
-  },
-  props: {
-    sourceIds: null
   },
 
   components: {
     doctorItem: DoctorItem
   },
 
-  computed: {},
+  computed: {
+    consultationEmpty() {
+      return imgMap.consultationEmpty;
+    },
+  },
 
   mounted() {},
 
   methods: {
+    //分页
+    loadMore() {
+      if (!this.loaded) {
+        this.page++;
+        this.requestDoctorList();
+      }
+    },
     //医生列表
     requestDoctorList() {
+      this.$indicator.open();
+      this.loading = true;
       let request = {
-        deptId: 0,
-        diseaseId: 0,
-        drName: "",
         orgId: this.orgId,
-        regCode: 0,
-        serviceType: 0,
-        sortType: 5,
-        type: 0,
+        classifyId: this.classifyId,
         pageNum: this.page,
-        pageSize: 3
+        pageSize: 10
       };
       let vm = this;
       this.$store
         .dispatch("doctorList", request)
         .then(data => {
-          if (data.doctorList) {
+          if (data.doctorList.length > 0) {
             for (let i = 0; i < data.doctorList.length; i++) {
               vm.doctorList.push(data.doctorList[i]);
             }
+            vm.loaded = vm.doctorList.length >= data.total;
+            this.loading = false;
+          }else{
+            vm.loaded = true;
+            vm.empty = true
           }
         })
+        .catch(error => {
+          vm.loaded = true;
+          vm.empty = true;
+          this.loading = false;
+          this.$toast(error.message);
+        })
+        .finally(() => {
+          this.$indicator.close();
+        });
     },
     //医生详情
     toDetail(item) {
@@ -80,6 +109,10 @@ export default {  //医生列表预览
 </script>
 
 <style scoped>
+.empty {
+  padding: 50px 40px;
+  text-align: center;
+}
 .mian_box {
   overflow: hidden;
   margin-left: -4%;
