@@ -22,10 +22,10 @@ export default {
     return {
       orgId: this.$route.query.orgId
         ? this.$route.query.orgId
-        : sessionStorage.getItem("orgId"), //"1079654019066011648",
+        : localStorage.getItem("orgId"), //"1079654019066011648",
       dataList: [],
-      navName: sessionStorage.getItem("navName"), //导航首页名字
-      pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
+      navName: localStorage.getItem("navName"), //导航首页名字
+      pageUrl: localStorage.getItem("pageUrl") //首页地址-返回微页面
     };
   },
   props: {
@@ -42,6 +42,7 @@ export default {
       window.location.href =
         "http://gzh.1010psy.com/courseHome?initOrgId=" +
         this.orgId +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
@@ -65,6 +66,7 @@ export default {
         window.location.href =
           "http://gzh.1010psy.com/courseInfo?cosId=" +
           item.id.value +
+          "&timestampCustomServe=true" +
           "&orgNames=" +
           this.navName +
           "&pageUrl=" +
@@ -73,6 +75,7 @@ export default {
         window.location.href =
           "http://gzh.1010psy.com/columnIntroduce?cosId=" +
           item.id.value +
+          "&timestampCustomServe=true" +
           "&orgNames=" +
           this.navName +
           "&pageUrl=" +

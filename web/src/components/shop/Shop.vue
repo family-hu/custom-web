@@ -18,7 +18,7 @@ import * as types from "../../constant/ConstantConfig.js";
 export default {
   data() {
     return {
-      orgId: this.$route.query.orgId ? this.$route.query.orgId : sessionStorage.getItem('orgId'),
+      orgId: this.$route.query.orgId ? this.$route.query.orgId : localStorage.getItem('orgId'),
       serviceList:[],
       navName: null, //导航首页名字
       pageUrl: null //首页地址-返回微页面
@@ -74,8 +74,8 @@ export default {
 
   created() {
     this.getPackagesList();
-    this.navName = sessionStorage.getItem("navName");
-    this.pageUrl = sessionStorage.getItem("pageUrl");
+    this.navName = localStorage.getItem("navName");
+    this.pageUrl = localStorage.getItem("pageUrl");
   },
 
 

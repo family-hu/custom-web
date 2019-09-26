@@ -17,11 +17,15 @@ export default {
     return {
       orgId: this.$route.query.orgId
         ? this.$route.query.orgId
-        : sessionStorage.getItem("orgId"),
+        : localStorage.getItem("orgId"),
       newsList: [],
-      navName: sessionStorage.getItem("navName"), //导航首页名字
-      pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
+      navName: localStorage.getItem("navName"), //导航首页名字
+      pageUrl: localStorage.getItem("pageUrl") //首页地址-返回微页面
     };
+  },
+
+  props: {
+    sourceIds: null
   },
 
   computed: {},
@@ -43,7 +47,8 @@ export default {
     toDetail(item) {
       window.location.href =
         "http://yun.sinoylb.com/newsDetail?newsId=" +
-        item.newsId.value +
+        item.newsId +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
@@ -54,14 +59,15 @@ export default {
     requestNewsList() {
       let request = {
         orgId: this.orgId,
+        classifyId: this.sourceIds,
         pageNum: this.page,
         pageSize: 2
       };
       let vm = this;
-      this.$store.dispatch("newsList", request).then(newsList => {
-        if (newsList) {
-          for (let i = 0; i < newsList.length; i++) {
-            vm.newsList.push(newsList[i]);
+      this.$store.dispatch("newsList", request).then(data => {
+        if (data.newsList.length > 0) {
+          for (let i = 0; i < data.newsList.length; i++) {
+            vm.newsList.push(data.newsList[i]);
           }
         }
       });

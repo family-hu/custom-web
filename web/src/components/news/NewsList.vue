@@ -24,7 +24,7 @@
     export default {
       data() {
         return {
-          orgId: this.$route.query.orgId ? this.$route.query.orgId : sessionStorage.getItem("orgId"),
+          orgId: this.$route.query.orgId ? this.$route.query.orgId : localStorage.getItem("orgId"),
           classifyId: this.$route.query.classifyId,
           orgInfo: {},
           org: false,
@@ -33,8 +33,8 @@
           loading: false,
           page: 1,
           loaded: false,   //是否加载完成
-          navName: sessionStorage.getItem("navName"), //导航首页名字
-          pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
+          navName: localStorage.getItem("navName"), //导航首页名字
+          pageUrl: localStorage.getItem("pageUrl") //首页地址-返回微页面
         }
       },
 
@@ -62,7 +62,8 @@
         toDetail(item) {
           window.location.href =
             "http://yun.sinoylb.com/newsDetail?newsId=" +
-            item.newsId.value +
+            item.newsId +
+            "&timestampCustomServe=true" +
             "&orgNames=" +
             this.navName +
             "&pageUrl=" +

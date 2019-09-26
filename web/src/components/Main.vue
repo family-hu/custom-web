@@ -110,7 +110,7 @@
         getNavigations() {
           let vm = this;
           const request = {
-            orgId: '910361211323850752' //this.orgId
+            orgId: this.orgId
           };
           vm.$store
             .dispatch("navigations", request)
@@ -121,8 +121,8 @@
                 let navName = data.data[0].navName;
                 let pageUrl = data.data[0].pageUrl;
                 //页面跳转，返回参数
-                sessionStorage.setItem("navName", navName);
-                sessionStorage.setItem("pageUrl", pageUrl);
+                localStorage.setItem("navName", navName);
+                localStorage.setItem("pageUrl", pageUrl);
               }
             })
             .catch(error => {
@@ -133,7 +133,7 @@
       created() {
         this.getNavigations();
         if (this.orgId) {
-          sessionStorage.setItem("orgId", this.orgId);
+          localStorage.setItem("orgId", this.orgId);
         }
       },
 

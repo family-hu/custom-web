@@ -3,7 +3,7 @@
       <!-- 体检套餐list -->
       <div class="cell_box" style="padding-top:20px" v-if="serviceList.length > 0">
         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
-          <health-service-item v-for="(item , index) in serviceList" :key="index" :healthServiceItem="item" :orgId="orgId"></health-service-item>
+          <health-service-item v-for="(item , index) in serviceList" :key="index" :healthServiceItem="item" :orgId="orgId" :navName="navName" :pageUrl="pageUrl"></health-service-item>
         </ul>
       </div>
       <div class="empty" v-if="empty">
@@ -20,13 +20,15 @@ import * as types from "../../constant/ConstantConfig.js";
 export default {
   data() {
     return {
-      orgId: this.$route.query.orgId ? this.$route.query.orgId : sessionStorage.getItem('orgId'),
+      orgId: this.$route.query.orgId ? this.$route.query.orgId : localStorage.getItem('orgId'),
       packProdGroupId: this.$route.query.packProdGroupId,
       serviceList:[],
       empty:false,
       loading: false,
       page: 1,
       loaded: false ,//是否加载完成
+      navName: null, //导航首页名字
+      pageUrl: null //首页地址-返回微页面
     };
   },
 
@@ -142,6 +144,8 @@ export default {
     }else{
       this.getPackagesList();
     }
+    this.navName = localStorage.getItem("navName");
+    this.pageUrl = localStorage.getItem("pageUrl");
   },
 
 

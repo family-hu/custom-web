@@ -21,15 +21,15 @@ export default {  //医生列表预览
     return {
       orgId: this.$route.query.orgId
         ? this.$route.query.orgId
-        : sessionStorage.getItem("orgId"),
+        : localStorage.getItem("orgId"),
       classifyId: this.$route.query.classifyId,
       doctorList: [],
       empty: false,
       loading: false,
       page: 1,
       loaded: false ,//是否加载完成
-      navName: sessionStorage.getItem("navName"), //导航首页名字
-      pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
+      navName: localStorage.getItem("navName"), //导航首页名字
+      pageUrl: localStorage.getItem("pageUrl") //首页地址-返回微页面
     };
   },
 
@@ -59,7 +59,7 @@ export default {  //医生列表预览
       this.loading = true;
       let request = {
         orgId: this.orgId,
-        classifyId: this.classifyId,
+        classifyId: this.classifyId ? this.classifyId : null,
         pageNum: this.page,
         pageSize: 10
       };
@@ -92,7 +92,8 @@ export default {  //医生列表预览
     toDetail(item) {
       window.location.href =
         "http://yun.sinoylb.com/doctorDetail?userId=" +
-        item.userId.value +
+        item.userId +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
@@ -102,8 +103,8 @@ export default {  //医生列表预览
 
   created() {
     this.requestDoctorList();
-    this.navName = sessionStorage.getItem("navName");
-    this.pageUrl = sessionStorage.getItem("pageUrl");
+    this.navName = localStorage.getItem("navName");
+    this.pageUrl = localStorage.getItem("pageUrl");
   }
 };
 </script>

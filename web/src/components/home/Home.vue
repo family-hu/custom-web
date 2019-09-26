@@ -2,7 +2,7 @@
   <div v-if="arr.length > 0">
     <div v-for="(item , index) in arr" :key="index">
       <div class="main"  v-if="item.comCode == 'SEARCH'" >搜索{{item.comCode}}</div>
-      <div class="main"  v-if="item.comCode == 'POSTER'">
+      <div class="main_banner"  v-if="item.comCode == 'POSTER'">
         <!-- 海报 -->
         <banner :bannerList="bannerList"></banner>
       </div>
@@ -12,23 +12,23 @@
       </div>
       <div class=""  v-if="item.comCode == 'NEWS'" >
         <!-- 文章资讯 -->
-        <news-home :sourceIds="sourceIds"></news-home>
+        <news-home :sourceIds="item.sourceIds[0]"></news-home>
       </div>
       <div class="main" v-if="item.comCode == 'HEALTHSERVICE'">
         <!-- 健康商城 -->
-        <shop :sourceIds="sourceIds"></shop>
+        <shop :sourceIds="item.sourceIds[0]"></shop>
       </div>
       <div class="main" v-if="item.comCode == 'KNOWLEDGEPAY'">
         <!-- 健康课程 -->
-        <course-home :initGroupKey="sourceIds"></course-home>
+        <course-home :initGroupKey="item.sourceIds[0]"></course-home>
       </div>
       <div class="main"  v-if="item.comCode == 'PSYCHOEVALUATION'">
         <!-- 心理测评 -->
-        <psyer-home :initGroupKey="sourceIds"></psyer-home>
+        <psyer-home :initGroupKey="item.sourceIds[0]"></psyer-home>
       </div>
       <div class="main"  v-if="item.comCode == 'CONSULTANT'">
         <!-- 咨询师 -->
-        <consultation-list :initGroupKey="sourceIds"></consultation-list>
+        <consultation-list :initGroupKey="item.sourceIds[0]"></consultation-list>
       </div>
     </div>
   </div>
@@ -154,5 +154,9 @@ export default {
 .main {
   background: #fff;
   margin-bottom: 10px;
+}
+.main_banner{
+  background: #fff;
+  padding-bottom: 10px;
 }
 </style>

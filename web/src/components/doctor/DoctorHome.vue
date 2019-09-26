@@ -19,10 +19,10 @@ export default {
     return {
       orgId: this.$route.query.orgId
         ? this.$route.query.orgId
-        : sessionStorage.getItem("orgId"),
+        : localStorage.getItem("orgId"),
       doctorList: [],
-      navName: sessionStorage.getItem("navName"), //导航首页名字
-      pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
+      navName: localStorage.getItem("navName"), //导航首页名字
+      pageUrl: localStorage.getItem("pageUrl") //首页地址-返回微页面
     };
   },
   props: {
@@ -68,7 +68,8 @@ export default {
     toDetail(item) {
       window.location.href =
         "http://yun.sinoylb.com/doctorDetail?userId=" +
-        item.userId.value +
+        item.userId +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
@@ -78,8 +79,8 @@ export default {
 
   created() {
     this.requestDoctorList();
-    this.navName = sessionStorage.getItem("navName");
-    this.pageUrl = sessionStorage.getItem("pageUrl");
+    this.navName = localStorage.getItem("navName");
+    this.pageUrl = localStorage.getItem("pageUrl");
   }
 };
 </script>

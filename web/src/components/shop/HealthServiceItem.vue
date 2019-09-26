@@ -38,6 +38,7 @@ export default {
         this.orgId +
         "&shopName=" +
         item.name +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
@@ -46,7 +47,6 @@ export default {
   },
 
   created() {
-    // console.log(this.adList,'==this.adList');
   }
 };
 </script>

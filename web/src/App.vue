@@ -14,36 +14,12 @@
       ...mapGetters(['cacheName',"loginData"])
     },
 
-    watch: {
-      $route(to, from) {
-        //调用分享
-        if(this.$route.path === '/doctorDetail' || this.$route.path === '/main' || this.$route.path === '/healthServiceDetail' || this.$route.path === '/healthServiceDetail' || this.$route.path === '/topicDetail' || this.$route.path === '/home' || this.$route.path === '/featuresDepartment' || this.$route.path === '/serviceDetail' || this.$route.path === '/groupDetail') {
-          return false
-        }else{
-          console.log('默认');
-          setTimeout(() => {
-            this.wxShareCallback();
-          }, 1000)
-        }
-      }
-    },
 
     methods:{
-      wxShareCallback() {
-        let shareUrl = window.location.href.split("#")[0];
-        let dataForWeixin = {
-            title: document.title, // 分享标题
-            desc: '看病足不出户', // 分享描述
-            link: shareUrl, // 分享链接
-            imgUrl: 'http://yun.sinoylb.com/static/img/share@2x.png', // 分享图标 医生头像
-        }
-        this.wxapi.wxShare(shareUrl, dataForWeixin);
-      },
+
     },
     created() {
-      // if(!this.loginData.tid){
-      //   this.myUtils.wxLogin();
-      // }
+
     }
   }
 </script>

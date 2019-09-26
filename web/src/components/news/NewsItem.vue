@@ -204,12 +204,10 @@ export default {
   justify-content: space-between;
   padding: 16px;
   background: #fff;
-  /* margin-bottom: 10px; */
 }
 .list_box2 {
   padding: 16px;
   background: #fff;
-  margin-bottom: 10px;
 }
 .shade{
   position: absolute;

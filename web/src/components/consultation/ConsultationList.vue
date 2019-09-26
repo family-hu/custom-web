@@ -23,9 +23,9 @@ export default {
       consultationList: [],
       orgId: this.$route.query.orgId
         ? this.$route.query.orgId
-        : sessionStorage.getItem("orgId"), //"1079654019066011648",
-      navName: sessionStorage.getItem("navName"), //导航首页名字
-      pageUrl: sessionStorage.getItem("pageUrl") //首页地址-返回微页面
+        : localStorage.getItem("orgId"), //"1079654019066011648",
+      navName: localStorage.getItem("navName"), //导航首页名字
+      pageUrl: localStorage.getItem("pageUrl") //首页地址-返回微页面
     };
   },
 
@@ -59,6 +59,7 @@ export default {
       window.location.href =
         "http://gzh.1010psy.com/consultationList?sortBy=time_create&initOrgId=" +
         this.orgId +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
@@ -68,6 +69,7 @@ export default {
       window.location.href =
         "http://gzh.1010psy.com/courseInfo?consultationDetail=" +
         item.pevalId.value +
+        "&timestampCustomServe=true" +
         "&orgNames=" +
         this.navName +
         "&pageUrl=" +
