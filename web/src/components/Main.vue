@@ -1,6 +1,6 @@
 <template>
   <div class="page-tabbar">
-    <div class="page-wrap" v-if="pageId.length > 0">
+    <div class="page-wrap" v-if="pageId">
       <mt-tab-container class="page-tabbar-container" v-model="selected">
         <mt-tab-container-item id="home">
           <home :pageId="pageId"></home>
@@ -20,7 +20,7 @@
       </mt-tab-container>
     </div>
 
-    <mt-tabbar v-model="selected" fixed>
+    <mt-tabbar v-model="selected" fixed v-if="!isShare">
       <div v-if="arr.length > 0" :style="'flex:' + arr.length" v-for="(item , index) in arr" :key="index">
         <mt-tab-item id="home" v-if="item.navName == '首页'" @click.native="changeTitle(item)">
           <img slot="icon" :src="homeImg">
@@ -57,10 +57,11 @@
         data() {
           return {
             selected: "home",
-            orgId: '910361211323850752',//this.$route.query.customOrgId,'1153177779693461504'
+            orgId: this.$route.query.customOrgId,//'910361211323850752'
+            pageId: this.$route.query.pageId,
+            isShare: this.$route.query.isShare,//分享
             focusEnter: true,//this.$route.query.focusEnter,
             arr: [],
-            pageId: ''
           }
         },
 
@@ -118,11 +119,7 @@
               if (data) {
                 vm.arr = data.data;
                 vm.pageId = data.data[0].pageId;//默认首页
-                let navName = data.data[0].navName;
-                let pageUrl = data.data[0].pageUrl;
-                //页面跳转，返回参数
-                localStorage.setItem("navName", navName);
-                localStorage.setItem("pageUrl", pageUrl);
+                console.log(vm.pageId,'==vm.pageId');
               }
             })
             .catch(error => {
@@ -131,7 +128,9 @@
         },
       },
       created() {
-        this.getNavigations();
+        if(!this.isShare){
+          this.getNavigations();
+        }
         if (this.orgId) {
           localStorage.setItem("orgId", this.orgId);
         }

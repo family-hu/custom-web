@@ -50,7 +50,8 @@ export default {
       sourceIds: "",
       arr: [],
       bannerList: "",
-      page: 1
+      page: 1,
+      isShare: this.$route.query.isShare,//分享
     };
   },
   props: {
@@ -82,19 +83,23 @@ export default {
     getOrgShow() {
       let vm = this;
       const request = {
-        pageId: this.pageId
+        pageId: this.pageId ? this.pageId : this.$route.query.pageId
       };
       vm.$store
         .dispatch("orgShow", request)
         .then(data => {
           if (data.data) {
             vm.arr = data.data.detailsList;
+            let navName = data.data.pageName;
+            let pageUrl = data.data.pageUrl;
+            //页面跳转，返回参数
+            localStorage.setItem("navName", navName);
+            localStorage.setItem("pageUrl", pageUrl);
             for (let i = 0; i < data.data.detailsList.length; i++) {
               let comCode = data.data.detailsList[i].comCode;
               // if (data.data.detailsList[i].sourceIds.length > 0) {
               //   this.sourceIds.push(data.data.detailsList[i].sourceIds[0]);
               // }
-
               switch (comCode) {
                 case "POSTER": //海报
                   this.bannerList = data.data.detailsList[i].bannerList;
